@@ -1,0 +1,38 @@
+builds:
+  - id: default
+    main: ./cmd/your-app # adjust if needed
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+# (Optional) Separate archives/binaries per arch will be produced automatically.
+
+dockers:
+  # Per-arch images
+  - image_templates:
+      - ghcr.io/skel84/external-dns-bunny-webhook:{{ .Version }}-amd64
+      - ghcr.io/skel84/external-dns-bunny-webhook:latest-amd64
+    use: docker
+    goos: linux
+    goarch: amd64
+
+  - image_templates:
+      - ghcr.io/skel84/external-dns-bunny-webhook:{{ .Version }}-arm64
+      - ghcr.io/skel84/external-dns-bunny-webhook:latest-arm64
+    use: docker
+    goos: linux
+    goarch: arm64
+
+docker_manifests:
+  - name_template: ghcr.io/skel84/external-dns-bunny-webhook:{{ .Version }}
+    image_templates:
+      - ghcr.io/skel84/external-dns-bunny-webhook:{{ .Version }}-amd64
+      - ghcr.io/skel84/external-dns-bunny-webhook:{{ .Version }}-arm64
+  - name_template: ghcr.io/skel84/external-dns-bunny-webhook:latest
+    image_templates:
+      - ghcr.io/skel84/external-dns-bunny-webhook:latest-amd64
+      - ghcr.io/skel84/external-dns-bunny-webhook:latest-arm64
