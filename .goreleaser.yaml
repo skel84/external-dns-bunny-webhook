@@ -1,14 +1,15 @@
 builds:
-  - id: default
-    main: ./cmd/your-app # adjust if needed
+  - main: ./cmd/webhook
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath # removes all file system paths from the compiled executable
     goos:
       - linux
+      - darwin
     goarch:
       - amd64
       - arm64
-    ldflags:
-      - -s -w
-
 # (Optional) Separate archives/binaries per arch will be produced automatically.
 
 dockers:
